@@ -1,0 +1,61 @@
+# scripts/kpi_top5_brands_per_region.py
+
+import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+# File paths
+INPUT_FILE = os.path.join("output", "merged_rto_data.csv")
+OUTPUT_CSV = os.path.join("output", "top5_brands_per_region.csv")
+PLOT_SAMPLE_OUTPUT = os.path.join("output", "top5_brands_region_sample_plot.png")
+
+try:
+    # Load data
+    df = pd.read_csv(INPUT_FILE)
+    print("✅ Data loaded")
+
+    # Resolve column fallbacks
+    df["Region"] = df["OfficeCd"].fillna(df["OfficeCd.1"])
+    df["Maker"] = df["makerName"].fillna(df["Manufacturer_Name"])
+    df["Model"] = df["modelDesc"].fillna(df["Model_Desc"])
+
+    # Drop rows with null essential values
+    df = df.dropna(subset=["Region", "Maker", "Model"])
+
+    # Group by Region, Maker, Model → count occurrences
+    grouped = (
+        df.groupby(["Region", "Maker", "Model"])
+        .size()
+        .reset_index(name="Count")
+    )
+
+    # Sort and extract top 5 per region
+    top5_per_region = (
+        grouped.sort_values(["Region", "Count"], ascending=[True, False])
+        .groupby("Region")
+        .head(5)
+    )
+
+    # Save result
+    top5_per_region.to_csv(OUTPUT_CSV, index=False)
+    print(f"✅ Saved region-wise top 5 brands/models to {OUTPUT_CSV}")
+
+    # Optional: Sample plot for a specific region
+    sample_region = "RTA RANGAREDDY"
+    sample_data = top5_per_region[top5_per_region["Region"] == sample_region]
+    sample_data["Brand_Model"] = sample_data["Maker"] + " - " + sample_data["Model"]
+
+    plt.figure(figsize=(12, 6))
+    sns.barplot(data=sample_data, x="Count", y="Brand_Model", palette="magma")
+    plt.title(f"Top 5 Brands/Models in {sample_region}")
+    plt.xlabel("Registrations")
+    plt.ylabel("Brand - Model")
+    plt.tight_layout()
+    plt.savefig(PLOT_SAMPLE_OUTPUT)
+    print(f"✅ Plot saved to {PLOT_SAMPLE_OUTPUT}")
+
+except Exception as e:
+    print("❌ Error in KPI 5 (region-wise) analysis:", e)

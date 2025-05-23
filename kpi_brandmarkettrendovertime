@@ -1,0 +1,62 @@
+# scripts/kpi_market_trend_top_brands.py
+
+import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+# File paths
+INPUT_FILE = os.path.join("output", "merged_rto_data.csv")
+OUTPUT_CSV = os.path.join("output", "kpi6_brand_monthly_trend.csv")
+OUTPUT_PLOT = os.path.join("output", "kpi6_brand_monthly_trend_plot.png")
+
+try:
+    # Load data
+    df = pd.read_csv(INPUT_FILE)
+    print("✅ Data loaded")
+
+    # Fallback column for brand
+    df["Maker"] = df["makerName"].fillna(df["Manufacturer_Name"])
+
+    # Parse fromdate → Month-Year
+    df["fromdate"] = pd.to_datetime(df["fromdate"], errors="coerce")
+    df = df.dropna(subset=["fromdate", "Maker"])
+    df["Month"] = df["fromdate"].dt.to_period("M").astype(str)
+
+    # Group by Month and Maker
+    grouped = df.groupby(["Month", "Maker"]).size().reset_index(name="Count")
+
+    # Top 5 brands overall
+    top_brands = (
+        grouped.groupby("Maker")["Count"].sum()
+        .sort_values(ascending=False)
+        .head(5)
+        .index.tolist()
+    )
+
+    # Filter only top 5 brands
+    top_data = grouped[grouped["Maker"].isin(top_brands)]
+
+    # Pivot to plot
+    pivot = top_data.pivot(index="Month", columns="Maker", values="Count").fillna(0)
+
+    # Save raw data
+    pivot.to_csv(OUTPUT_CSV)
+    print(f"✅ Saved monthly trend data to {OUTPUT_CSV}")
+
+    # Plot
+    plt.figure(figsize=(14, 6))
+    pivot.plot(marker="o", figsize=(14, 6), linewidth=2)
+    plt.title("Monthly Registration Trend of Top 5 Brands")
+    plt.xlabel("Month")
+    plt.ylabel("Number of Registrations")
+    plt.xticks(rotation=45)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(OUTPUT_PLOT)
+    print(f"✅ Trend plot saved to {OUTPUT_PLOT}")
+
+except Exception as e:
+    print("❌ Error in KPI 6 (market trend):", e)

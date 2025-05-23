@@ -158,7 +158,7 @@ requirements.txt should include:
 
 Developed by: Sanjay Kankamwar  
 GitHub: https://github.com/SanjayKankamwar  
-LinkedIn: https://www.linkedin.com/in/your-profile
+LinkedIn: https://www.linkedin.com/in/sanjaykankamwar
 
 ## 📜 License
 

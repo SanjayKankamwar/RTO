@@ -1,81 +1,165 @@
-# Telangana RTO Vehicle Registration Analysis (2019–2025)
+# 📊 Telangana RTO Automotive Market Analysis (2019–2025)
 
-This project analyzes vehicle registration data from the Regional Transport Offices (RTOs) in Telangana, India. The focus is on extracting insights related to:
+A data-driven analysis of vehicle registration trends across Telangana to understand fuel adoption, manufacturer popularity, regional brand preferences, and the rise of electric vehicles. The analysis covers data from all major RTOs across the state and presents insights through 6 key KPIs.
 
-- Fuel type adoption trends
-- Electric vehicle (EV) adoption by region
-- Engine capacity preferences across years
-- Popular makers and models by region
+## 🌐 Project Overview
 
----
+This project aims to:
 
-## 📊 Objective
-
-To assist stakeholders in understanding the transformation of the automotive market in Telangana, especially in the context of increasing EV adoption and changing engine and fuel preferences.
-
----
-
-## 📂 Scripts Overview
-
-| Script Name | Purpose |
-|------------|---------|
-| `merge_rto_data.py` | Merges raw RTO CSV files and performs initial cleaning (standardizing columns, dropping nulls, formatting strings). |
-| `analyse_fuel_trends.py` | Analyzes fuel-type trends and engine capacity preferences from 2019 to 2025. |
-| `analyse_ev_adoption.py` | Identifies regions with the highest EV adoption based on registration data. |
-| `segment_rto_data.py` | Segments the dataset by fuel type, vehicle class, maker/model, region, and top brands per region. |
-
-Each script reads from a cleaned merged dataset and exports analytical outputs (CSV files) for visualization and decision-making.
-
----
+- Analyze regional trends in vehicle registrations using Telangana RTO data.
+- Track fuel-type transitions (including EV surge).
+- Identify top vehicle manufacturers and segment-wise preferences.
+- Build 6 Key Performance Indicators (KPIs) supported by clean visualizations.
+- Provide actionable insights for policy makers, automobile companies, and analysts.
 
 ## 📁 Folder Structure
-RTO/
-├── scripts/
-│ ├── merge_rto_data.py
-│ ├── analyse_fuel_trends.py
-│ ├── analyse_ev_adoption.py
-│ └── segment_rto_data.py
-├── output/ ← (Not pushed to GitHub)
-├── rtocsv/ ← (Not pushed to GitHub)
 
+```
+.
+├── output/                         # Final outputs (plots & processed CSVs)
+│   ├── ev_adoption_by_rto.csv
+│   ├── fuel_trend_plot.png
+│   ├── fuel_trends.csv
+│   ├── kpi6_brand_monthly_trend.csv
+│   ├── kpi6_brand_monthly_trend_plot.png
+│   ├── merged_rto_data.csv
+│   ├── segment_fuel_type.csv
+│   ├── segment_maker_model.csv
+│   ├── segment_region.csv
+│   ├── segment_vehicle_class.csv
+│   ├── top_ev_rto_areas.csv
+│   ├── top_ev_rtos_plot.png
+│   ├── top_manufacturers.csv
+│   ├── top_manufacturers_plot.png
+│   ├── top5_brands_per_region.csv
+│   ├── top5_brands_region_sample_plot.png
+│   └── vehicle_class_trend_plot.png
+│
+├── rtocsv/                         # (Optional) Raw CSVs if any
+│
+├── scripts/                        # Python scripts for each KPI & preprocessing
+│   ├── analyse_ev_adoption.py
+│   ├── kpi_analyse_fuel_trends.py
+│   ├── kpi_analyse_top_makers.py
+│   ├── kpi_analyse_vehicle_class_trend.py
+│   ├── kpi_brandmarkettrendovertime.py
+│   ├── kpi_ev_adoption_rate.py
+│   ├── kpi_top5_brands_per_region.py
+│   ├── merge_rto_data.py
+│   └── segment_rto_data.py
+│
+├── README.md                       # This file
+└── requirements.txt                # Python dependencies
+```
 
-Only the `scripts/` directory is version controlled on this repository.
+## 🛠️ Setup Instructions
 
----
+1. Clone the repository:
 
-## 📌 Dataset Source
+```bash
+git clone https://github.com/your-username/RTO.git
+cd RTO
+```
 
-The vehicle registration data is publicly available at the Telangana Government open data portal:
+2. Create and activate a virtual environment (optional):
 
-🔗 [https://data.telangana.gov.in/dataset/regional-transport-authority-vehicle-online-sales-data](https://data.telangana.gov.in/dataset/regional-transport-authority-vehicle-online-sales-data)
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/macOS
+venv\Scripts\activate    # Windows
+```
 
----
+3. Install dependencies:
 
-## 🛠️ Tools Used
+```bash
+pip install -r requirements.txt
+```
 
-- Python (Pandas, NumPy, Matplotlib)
-- Git for version control
-- CSV-based storage for analytics output
+4. (Optional) If your raw data is not pre-merged, run:
 
----
+```bash
+python scripts/segment_rto_data.py
+python scripts/merge_rto_data.py
+```
 
-## 🧠 Key Insights
+## 📈 Running the KPI Scripts
 
-- Electric vehicles have seen a significant uptick since 2020.
-- Urban and semi-urban regions show the fastest EV adoption (e.g., RT, UN RTO codes).
-- Petrol remains dominant, but alternative fuels like CNG and hybrids are emerging.
-- EVs dominate the sub-1000cc engine segment due to their lightweight and economical build.
+Each script in `/scripts` generates one KPI and associated outputs in `/output`:
 
----
+- **KPI 1: EV Adoption Rate by RTO**
+  - Script: `scripts/kpi_ev_adoption_rate.py`
+  - Output: `ev_adoption_by_rto.csv`, `top_ev_rtos_plot.png`
 
-## 📬 Contact
+- **KPI 2: Fuel Type Registration Trends**
+  - Script: `scripts/kpi_analyse_fuel_trends.py`
+  - Output: `fuel_trends.csv`, `fuel_trend_plot.png`
 
-For questions or collaboration, feel free to reach out to:
+- **KPI 3: Vehicle Class Distribution**
+  - Script: `scripts/kpi_analyse_vehicle_class_trend.py`
+  - Output: `vehicle_class_trend_plot.png`
 
-**Sanjay Kankamwar**  
-📧 sanjaykankamwar6008@gmail.com
-📍 VIIT Pune
+- **KPI 4: Top Vehicle Manufacturers**
+  - Script: `scripts/kpi_analyse_top_makers.py`
+  - Output: `top_manufacturers.csv`, `top_manufacturers_plot.png`
 
----
+- **KPI 5: Top 5 Brands by Region**
+  - Script: `scripts/kpi_top5_brands_per_region.py`
+  - Output: `top5_brands_per_region.csv`, `top5_brands_region_sample_plot.png`
 
+- **KPI 6: Monthly Brand Trend Over Time**
+  - Script: `scripts/kpi_brandmarkettrendovertime.py`
+  - Output: `kpi6_brand_monthly_trend.csv`, `kpi6_brand_monthly_trend_plot.png`
 
+## 🧮 KPI Descriptions
+
+1. **📍 EV Adoption by RTO Region**  
+   Measures EV penetration across Telangana’s RTOs. Highlights regions like Hyderabad CZ, Medchal, and Rangareddy.
+
+2. **⛽ Fuel Type Trends Over Years (2019–2025)**  
+   Tracks petrol, diesel, hybrid, and EV vehicle trends. EVs grew 2000% since 2019.
+
+3. **🚗 Vehicle Class Popularity**  
+   Motorcycles dominate, followed by cars, tractors, and rickshaws—indicating personal mobility trends.
+
+4. **🏭 Top Manufacturers**  
+   Hero, Honda, TVS, and Bajaj top registration charts across Telangana.
+
+5. **🌐 Top 5 Brands by Region**  
+   Highlights regional preferences for manufacturers and models.
+
+6. **📆 Brand Popularity Over Time (Monthly)**  
+   Temporal trends of brand registrations—ideal for sales strategy and planning.
+
+## 🖼️ Output Visuals
+
+- Fuel Type Trend → `output/fuel_trend_plot.png`
+- EV Regions → `output/top_ev_rtos_plot.png`
+- Manufacturers → `output/top_manufacturers_plot.png`
+- Vehicle Classes → `output/vehicle_class_trend_plot.png`
+- Regional Brands → `output/top5_brands_region_sample_plot.png`
+- Monthly Brand Trends → `output/kpi6_brand_monthly_trend_plot.png`
+
+## 📦 Dependencies
+
+Install all requirements with:
+
+```bash
+pip install -r requirements.txt
+```
+
+requirements.txt should include:
+
+- pandas
+- numpy
+- matplotlib
+- seaborn
+
+## ✍️ Author
+
+Developed by: Sanjay Kankamwar  
+GitHub: https://github.com/SanjayKankamwar  
+LinkedIn: https://www.linkedin.com/in/your-profile
+
+## 📜 License
+
+This project is for academic and internal analysis use. Contact the author for commercial usage rights.

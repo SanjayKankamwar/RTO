@@ -1,5 +1,5 @@
 # 📊 Telangana RTO Automotive Market Analysis (2019–2025)
-
+Before going forward with this download the dataset from the year 2019 to 2025(according to your preference) link :- https://data.telangana.gov.in/dataset/regional-transport-authority-vehicle-online-sales-data
 A data-driven analysis of vehicle registration trends across Telangana to understand fuel adoption, manufacturer popularity, regional brand preferences, and the rise of electric vehicles. The analysis covers data from all major RTOs across the state and presents insights through 6 key KPIs.
 
 ## 🌐 Project Overview

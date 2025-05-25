@@ -37,7 +37,7 @@ This project aims to:
 │   ├── top5_brands_region_sample_plot.png
 │   └── vehicle_class_trend_plot.png
 │
-├── rtocsv/                         # (Optional) Raw CSVs if any
+├── rtocsv/                         # Raw dataset that we have downloaded
 │
 ├── scripts/                        # Python scripts for each KPI & preprocessing
 │   ├── analyse_ev_adoption.py
